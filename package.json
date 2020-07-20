@@ -1,0 +1,50 @@
+{
+  "name": "thinkphp5-vue",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://gitee.com/ploughing/think.git",
+  "author": "ahj <740055963@qq.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development gulp dev",
+    "build": "cross-env NODE_ENV=production gulp build",
+    "page": "node build/page.js",
+    "p": "node build/page.js"
+  },
+  "dependencies": {
+    "colors": "1.4.0",
+    "md5": "2.2.1",
+    "vue": "2.6.11"
+  },
+  "devDependencies": {
+    "@babel/core": "7.10.5",
+    "@babel/plugin-transform-runtime": "7.10.5",
+    "@babel/preset-env": "7.10.4",
+    "@babel/runtime": "7.10.5",
+    "autoprefixer": "9.8.5",
+    "babel-loader": "8.1.0",
+    "clean-webpack-plugin": "3.0.0",
+    "copy-webpack-plugin": "6.0.3",
+    "cross-env": "7.0.2",
+    "css-loader": "3.6.0",
+    "dart-sass": "1.25.0",
+    "del": "5.1.0",
+    "file-loader": "6.0.0",
+    "gulp": "4.0.2",
+    "gulp-rev": "9.0.0",
+    "happypack": "5.0.1",
+    "html-webpack-plugin": "4.3.0",
+    "mini-css-extract-plugin": "0.9.0",
+    "progress-bar-webpack-plugin": "2.1.0",
+    "sass-loader": "9.0.2",
+    "sass-resources-loader": "2.0.3",
+    "style-loader": "1.2.1",
+    "vinyl-named": "1.1.0",
+    "vue-loader": "15.9.3",
+    "vue-style-loader": "4.1.2",
+    "vue-template-compiler": "2.6.11",
+    "webpack": "4.43.0",
+    "webpack-parallel-uglify-plugin": "1.1.2",
+    "webpack-stream": "5.0.0"
+  }
+}

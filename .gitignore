@@ -1,0 +1,9 @@
+.idea
+composer.lock
+*.log
+!thinkphp
+runtime
+node_modules
+.cache
+dist
+server/public/assets/dev

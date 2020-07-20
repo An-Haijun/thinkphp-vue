@@ -1,0 +1,4 @@
+{
+  // 解决 async await 等新语法使用报错
+  "plugins": ["@babel/plugin-transform-runtime"]
+}

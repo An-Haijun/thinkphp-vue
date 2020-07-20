@@ -1,0 +1,11 @@
+{extend name="../application/common/layout/#layout#.html" /}
+{block name="app"}
+{include file="../application/#template#.template.html" /}
+{/block}
+{block name="attach"}
+{eq name="$Think.config.env" value="production"}
+<script src=__ASSETS__/bundle/#assets#.js?{$Think.config.timestamp}></script>
+{else/}
+<script src=__ASSETS__/dev/#assets#.js?{$Think.config.timestamp}></script>
+{/eq}
+{/block}
