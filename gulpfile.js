@@ -33,7 +33,7 @@ async function handleJs(cb) {
     console.log('\n Warning：'.bgRed, 'There is no match, next... \n')
     return
   }
-  await src(lists, {allowEmpty: true})
+  await src(lists, { allowEmpty: true })
     .pipe(named())
     .pipe(gulpWebpack(webpackConfig, webpack, function (err, stats) {
       /* Use stats to do more things if needed */
@@ -66,7 +66,7 @@ function handleUnWatch(options = {}) {
 const bindReloadJavascript = series(handleJs)
 
 function watchJs(cb) {
-  let watcher = watch('./src/views/**/*.*', { delay: 500 })
+  let watcher = watch('./src/views/**/*.*', { delay: 300 })
   watcher.on('change', function (path, stats) {
     console.log(`File ${path} changed`)
     if (path.indexOf('views') != -1) {
@@ -79,19 +79,21 @@ function watchJs(cb) {
   watcher.on('add', function (path, stats) {
     console.log(`File ${path} added`)
     if (path.indexOf('views') != -1) {
-      startComplier = false
-      timeout1 = setTimeout(() => {
-        startComplier = true
-        clearTimeout(timeout1)
-      }, 300);
-      timeout2 = setTimeout(() => {
-        if (startComplier) {
-          watcher.add(path)
-          bindReloadJavascript()    
-        }
-        startComplier = false
-        clearTimeout(timeout2)
-      }, 600);
+      watcher.add(path)
+      bindReloadJavascript()
+      // startComplier = false
+      // timeout1 = setTimeout(() => {
+      //   startComplier = true
+      //   clearTimeout(timeout1)
+      // }, 800);
+      // timeout2 = setTimeout(() => {
+      //   if (startComplier) {
+      //     watcher.add(path)
+      //     bindReloadJavascript()    
+      //   }
+      //   startComplier = false
+      //   clearTimeout(timeout2)
+      // }, 1000);
     }
   })
 
@@ -103,7 +105,7 @@ function watchJs(cb) {
       })
     }
   })
-  const watcherSrc = watch('./src/**/*.*', {delay: 500})
+  const watcherSrc = watch('./src/**/*.*', { delay: 300 })
   watcherSrc.on('change', function (path, stats) {
     if (path.indexOf('views') === -1) {
       console.log(`File(src) ${path} changed`)
@@ -112,22 +114,52 @@ function watchJs(cb) {
   })
 }
 
-function replaceProdConfig(cb) {
-  const target = 'prod'
-  fs.readFile(path.join(__dirname, `./server/application/${target}.php`), 'utf8', function (err, data) {
+function replaceProdTimestamp(cb) {
+  const target = 'config/prod/timestamp'
+  fs.readFile(path.join(__dirname, `./server/${target}.php`), 'utf8', function (err, data) {
     let _data = data
     const timestamp = (new Date()) * 1000 / 1000
-    let replaceData = _data.replace(/\'timestamp\'\s*=>\s*\'[a-zA-Z0-9]*\',/g, `'timestamp' => '${timestamp}',`)
+    let replaceData = _data.replace(/\$t\s*=\s*\'[a-zA-Z0-9]*\'/g, `$t = '${timestamp}'`)
     console.log('Done!')
 
-    fs.writeFile(path.join(__dirname, `./server/application/${target}.php`), replaceData, 'utf8', (err) => {
+    fs.writeFile(path.join(__dirname, `./server/${target}.php`), replaceData, 'utf8', (err) => {
       if (err) throw err;
       console.log('success done');
+      cb()
     })
   })
-  cb()
 }
 
-exports.build = series(replaceProdConfig, cleanRoot, handleJs)
+function replaceProdEnv(cb) {
+  const target = 'config/env'
+  fs.readFile(path.join(__dirname, `./server/${target}.php`), 'utf8', function (err, data) {
+    let _data = data
+    let replaceData = _data.replace(/\$env\s*=\s*\'[a-zA-Z0-9]*\'/g, `$env = 'prod'`)
+    console.log('Done!')
 
-exports.dev = series(cleanRoot, handleJs, watchJs)
+    fs.writeFile(path.join(__dirname, `./server/${target}.php`), replaceData, 'utf8', (err) => {
+      if (err) throw err;
+      console.log('success done');
+      cb()
+    })
+  })
+}
+
+function replaceDevEnv(cb) {
+  const target = 'config/env'
+  fs.readFile(path.join(__dirname, `./server/${target}.php`), 'utf8', function (err, data) {
+    let _data = data
+    let replaceData = _data.replace(/\$env\s*=\s*\'[a-zA-Z0-9]*\'/g, `$env = 'dev'`)
+    console.log('Done!')
+
+    fs.writeFile(path.join(__dirname, `./server/${target}.php`), replaceData, 'utf8', (err) => {
+      if (err) throw err;
+      console.log('success done');
+      cb()
+    })
+  })
+}
+
+exports.build = series(parallel(replaceProdTimestamp, replaceProdEnv), cleanRoot, handleJs)
+
+exports.dev = series(replaceDevEnv, cleanRoot, handleJs, watchJs)

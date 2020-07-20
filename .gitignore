@@ -1,8 +1,8 @@
 .idea
-composer.lock
+server/composer.lock
 *.log
 !thinkphp
-runtime
+server/runtime
 node_modules
 .cache
 dist
