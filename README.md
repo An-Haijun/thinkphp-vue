@@ -1,7 +1,7 @@
 # ThinkPHP Vue 项目文档说明
 
     当前版本：
-    ThinkPHP v:5.0.0
+    ThinkPHP v:5.1
     Vue v:2.6.11
 
 **ThinkPHP 下载源（与官方仓库同步稍有延迟）**
