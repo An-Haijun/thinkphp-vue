@@ -4,43 +4,49 @@
     ThinkPHP v:5.0.0
     Vue v:2.6.11
 
+    **ThinkPHP 下载源（与官方仓库同步稍有延迟）**
+
+    think: [https://gitee.com/ploughing/think.git](https://gitee.com/ploughing/think.git)
+
+    framework: [https://gitee.com/ploughing/framework.git](https://gitee.com/ploughing/framework.git)
+
 ## 目录结构
 
-|_ build: 项目构建配置
+    ├ build: 项目构建配置
 
-|_ server: ThinkPHP 包含服务端功能逻辑、配置等
+    ├ server: ThinkPHP 包含服务端功能逻辑、配置等
 
-    |_ ...{ThinkPHP项目架构及常用配置项}
+        ├ ...{ThinkPHP项目架构及常用配置项}
 
-|_ src: 前端主要功能逻辑、配置等
+    ├ src: 前端主要功能逻辑、配置等
 
-    |_ assets: 前端资源
-    |_ components: Vue 组件
-    |_ layouts: 页面布局
-    |_ mixin: 混合配置项
-    |_ module: 前端组结构模板
+        ├ assets: 前端资源
+        ├ components: Vue 组件
+        ├ layouts: 页面布局
+        ├ mixin: 混合配置项
+        ├ module: 前端组结构模板     
 
-        |_ [index].html
-        |_ [index].template.html: 页面主页布局+功能代码书写文件
-        |_ [index].js
-        |_ [index].scss
+            ├ [index].html
+            ├ [index].template.html: 页面主页布局+功能代码书写文件
+            ├ [index].js
+            ├ [index].scss     
 
-    |_ router: 路由（这里不一定用到）
-    |_ store: 全局变量（本项目中特指本地存储，如：LocalStorage、SessionStorage、Cookie）
-    |_ utils: 公共工具
-    |_ views: 页面所依赖主逻辑及样式(js、scss)
+        ├ router: 路由（这里不一定用到）
+        ├ store: 全局变量（本项目中特指本地存储，如：LocalStorage、     SessionStorage、Cookie）
+        ├ utils: 公共工具
+        ├ views: 页面所依赖主逻辑及样式(js、scss)
 
-|_ .babelrc: ES6 => es5 编译配置
+    ├ .babelrc: ES6 => es5 编译配置
 
-|_ .gitignore: git 忽略 push 文件配置
+    ├ .gitignore: git 忽略 push 文件配置
 
-|_ gulpfile.js: Gulp 构建配置
+    ├ gulpfile.js: Gulp 构建配置
 
-|_ package.json: npm 依赖
+    ├ package.json: npm 依赖
 
-|_ README.md: 项目说明
+    ├ README.md: 项目说明
 
-|_ yarn.lock: 依赖关系
+    ├ yarn.lock: 依赖关系
 
 ## 启动项目
 
@@ -92,12 +98,12 @@ PS [项目根目录]> yarn p portal/view/user/login
 
 1、application/index/view/user 文件夹下生成两个文件
 
-|_ login.html
+├ login.html
 
-|_ login.template.html
+├ login.template.html
 
 2、src/views/index/user 文件夹下同样也生成两个文件
 
-|_ login.[唯一标记 = MD5('index/view/user/login').substring(9, 25)].js
+├ login.[唯一标记 = MD5('index/view/user/login').substring(9, 25)].js
 
-|_ login.[唯一标记 = MD5('index/view/user/login').substring(9, 25)].scss
+├ login.[唯一标记 = MD5('index/view/user/login').substring(9, 25)].scss
