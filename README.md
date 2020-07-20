@@ -4,11 +4,11 @@
     ThinkPHP v:5.0.0
     Vue v:2.6.11
 
-    **ThinkPHP 下载源（与官方仓库同步稍有延迟）**
+**ThinkPHP 下载源（与官方仓库同步稍有延迟）**
 
-    think: [https://gitee.com/ploughing/think.git](https://gitee.com/ploughing/think.git)
+think: [https://gitee.com/ploughing/think.git](https://gitee.com/ploughing/think.git)
 
-    framework: [https://gitee.com/ploughing/framework.git](https://gitee.com/ploughing/framework.git)
+framework: [https://gitee.com/ploughing/framework.git](https://gitee.com/ploughing/framework.git)
 
 ## 目录结构
 
