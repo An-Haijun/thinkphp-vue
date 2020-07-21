@@ -3,7 +3,7 @@
 {include file="../application/index/view/index/index.template.html" /}
 {/block}
 {block name="attach"}
-{eq name="$Think.config.app_env" value="production"}
+{eq name="$Think.config.app_status" value="production"}
 <script src=__ASSETS__/bundle/index.0a8f5b1e76a728d2.js?{$Think.config.timestamp}></script>
 {else/}
 <script src=__ASSETS__/dev/index.0a8f5b1e76a728d2.js?{$Think.config.timestamp}></script>

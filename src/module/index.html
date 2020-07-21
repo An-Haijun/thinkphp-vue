@@ -3,7 +3,7 @@
 {include file="../application/#template#.template.html" /}
 {/block}
 {block name="attach"}
-{eq name="$Think.config.app_env" value="production"}
+{eq name="$Think.config.app_status" value="prod"}
 <script src=__ASSETS__/bundle/#assets#.js?{$Think.config.timestamp}></script>
 {else/}
 <script src=__ASSETS__/dev/#assets#.js?{$Think.config.timestamp}></script>

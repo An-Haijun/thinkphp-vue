@@ -144,7 +144,7 @@ $conf = [
     'exception_handle'       => '',
 ];
 
-$envConf = include 'env.php';
+$envConf = include 'global.php';
 
 $statusConf = include $envConf['app_status'] . '/app.php';
 

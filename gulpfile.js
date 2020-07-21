@@ -114,29 +114,14 @@ function watchJs(cb) {
   })
 }
 
-function replaceProdTimestamp(cb) {
-  const target = 'config/prod/timestamp'
-  fs.readFile(path.join(__dirname, `./server/${target}.php`), 'utf8', function (err, data) {
-    let _data = data
-    const timestamp = (new Date()) * 1000 / 1000
-    let replaceData = _data.replace(/\$t\s*=\s*\'[a-zA-Z0-9]*\'/g, `$t = '${timestamp}'`)
-    console.log('Done!')
-
-    fs.writeFile(path.join(__dirname, `./server/${target}.php`), replaceData, 'utf8', (err) => {
-      if (err) throw err;
-      console.log('success done');
-      cb()
-    })
-  })
-}
-
 function replaceProdEnv(cb) {
-  const target = 'config/env'
+  const target = 'config/global'
   fs.readFile(path.join(__dirname, `./server/${target}.php`), 'utf8', function (err, data) {
     let _data = data
     let replaceData = _data.replace(/\$env\s*=\s*\'[a-zA-Z0-9]*\'/g, `$env = 'prod'`)
     console.log('Done!')
-
+    const timestamp = (new Date()) * 1000 / 1000
+    replaceData = replaceData.replace(/\$t\s*=\s*\'[a-zA-Z0-9]*\'/g, `$t = '${timestamp}'`)
     fs.writeFile(path.join(__dirname, `./server/${target}.php`), replaceData, 'utf8', (err) => {
       if (err) throw err;
       console.log('success done');
@@ -146,7 +131,7 @@ function replaceProdEnv(cb) {
 }
 
 function replaceDevEnv(cb) {
-  const target = 'config/env'
+  const target = 'config/global'
   fs.readFile(path.join(__dirname, `./server/${target}.php`), 'utf8', function (err, data) {
     let _data = data
     let replaceData = _data.replace(/\$env\s*=\s*\'[a-zA-Z0-9]*\'/g, `$env = 'dev'`)
@@ -160,6 +145,6 @@ function replaceDevEnv(cb) {
   })
 }
 
-exports.build = series(parallel(replaceProdTimestamp, replaceProdEnv), cleanRoot, handleJs)
+exports.build = series(cleanRoot, handleJs, replaceProdEnv)
 
-exports.dev = series(replaceDevEnv, cleanRoot, handleJs, watchJs)
+exports.dev = series(cleanRoot, handleJs, replaceDevEnv, watchJs)
