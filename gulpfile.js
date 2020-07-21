@@ -46,6 +46,10 @@ async function handleJs(cb) {
       }
       console.log('√ — Successful! \n'.green.bold)
     }))
+    .on("error", function (err) {    // 解决编译出错，监听被阻断的问题
+      console.log('Webpack Compiler Error!'.red, err.message.red);
+      this.end();
+    })
     .pipe(dest(targetPath))
 }
 
@@ -68,7 +72,7 @@ const bindReloadJavascript = series(handleJs)
 function watchJs(cb) {
   let watcher = watch('./src/views/**/*.*', { delay: 300 })
   watcher.on('change', function (path, stats) {
-    console.log(`↔ Changed:`.green+` File ${path}`)
+    console.log(`↔ Changed:`.green + ` File ${path}`)
     if (path.indexOf('views') != -1) {
       bindReloadJavascript()
     }
@@ -77,7 +81,7 @@ function watchJs(cb) {
   let waitCompiler = false
   let timeout = null, timeoutVal = 500
   watcher.on('add', function (path, stats) {
-    console.log(`→ Added:`.green+` File ${path}`)
+    console.log(`→ Added:`.green + ` File ${path}`)
     if (path.indexOf('views') != -1) {
       function timeout() {
         if (waitCompiler) {
@@ -97,7 +101,7 @@ function watchJs(cb) {
   })
 
   watcher.on('unlink', function (path, stats) {
-    console.log(`← Deleted:`.green+` File ${path}`);
+    console.log(`← Deleted:`.green + ` File ${path}`);
     if (path.indexOf('views') !== -1 && path.indexOf('.js') != -1) {
       handleUnWatch({
         watcher, path
@@ -107,7 +111,7 @@ function watchJs(cb) {
   const watcherSrc = watch('./src/**/*.*', { delay: 300 })
   watcherSrc.on('change', function (path, stats) {
     if (path.indexOf('views') === -1) {
-      console.log(`↔ Changed(global):`.green+` File ${path} changed`)
+      console.log(`↔ Changed(global):`.green + ` File ${path} changed`)
       bindReloadJavascript()
     }
   })
