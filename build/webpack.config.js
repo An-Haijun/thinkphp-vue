@@ -35,7 +35,7 @@ const config = {
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
-      '@ware-src': path.resolve(__dirname, '../src/')
+      '@src': path.resolve(__dirname, '../src/')
     },
     cacheWithContext: true
   },

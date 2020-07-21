@@ -1,6 +1,6 @@
 <?php
 
-$env = 'prod'; // Build 自动生成 dev | prod
+$env = 'dev'; // Build 自动生成 dev | prod
 
 $t = time();
 

@@ -44,7 +44,7 @@ async function handleJs(cb) {
         console.log('X — Failed!'.red.bold)
         return
       }
-      console.log('√ — Successful!'.green.bold)
+      console.log('√ — Successful! \n'.green.bold)
     }))
     .pipe(dest(targetPath))
 }
@@ -68,37 +68,36 @@ const bindReloadJavascript = series(handleJs)
 function watchJs(cb) {
   let watcher = watch('./src/views/**/*.*', { delay: 300 })
   watcher.on('change', function (path, stats) {
-    console.log(`File ${path} changed`)
+    console.log(`↔ Changed:`.green+` File ${path}`)
     if (path.indexOf('views') != -1) {
       bindReloadJavascript()
     }
   })
 
-  let startComplier = true
-  let timeout1 = null, timeout2 = null
+  let waitCompiler = false
+  let timeout = null, timeoutVal = 500
   watcher.on('add', function (path, stats) {
-    console.log(`File ${path} added`)
+    console.log(`→ Added:`.green+` File ${path}`)
     if (path.indexOf('views') != -1) {
-      watcher.add(path)
-      bindReloadJavascript()
-      // startComplier = false
-      // timeout1 = setTimeout(() => {
-      //   startComplier = true
-      //   clearTimeout(timeout1)
-      // }, 800);
-      // timeout2 = setTimeout(() => {
-      //   if (startComplier) {
-      //     watcher.add(path)
-      //     bindReloadJavascript()    
-      //   }
-      //   startComplier = false
-      //   clearTimeout(timeout2)
-      // }, 1000);
+      function timeout() {
+        if (waitCompiler) {
+          console.log('Wait compiler ...')
+          return
+        }
+        waitCompiler = true
+        timeout = setTimeout(() => {
+          watcher.add(path)
+          bindReloadJavascript()
+          waitCompiler = false
+          clearTimeout(timeout)
+        }, timeoutVal);
+      }
+      timeout()
     }
   })
 
   watcher.on('unlink', function (path, stats) {
-    console.log(`File ${path} deleted`);
+    console.log(`← Deleted:`.green+` File ${path}`);
     if (path.indexOf('views') !== -1 && path.indexOf('.js') != -1) {
       handleUnWatch({
         watcher, path
@@ -108,7 +107,7 @@ function watchJs(cb) {
   const watcherSrc = watch('./src/**/*.*', { delay: 300 })
   watcherSrc.on('change', function (path, stats) {
     if (path.indexOf('views') === -1) {
-      console.log(`File(src) ${path} changed`)
+      console.log(`↔ Changed(global):`.green+` File ${path} changed`)
       bindReloadJavascript()
     }
   })
@@ -124,7 +123,7 @@ function replaceProdEnv(cb) {
     replaceData = replaceData.replace(/\$t\s*=\s*\'[a-zA-Z0-9]*\'/g, `$t = '${timestamp}'`)
     fs.writeFile(path.join(__dirname, `./server/${target}.php`), replaceData, 'utf8', (err) => {
       if (err) throw err;
-      console.log('success done');
+      console.log('Success done! \n');
       cb()
     })
   })
@@ -139,7 +138,7 @@ function replaceDevEnv(cb) {
 
     fs.writeFile(path.join(__dirname, `./server/${target}.php`), replaceData, 'utf8', (err) => {
       if (err) throw err;
-      console.log('success done');
+      console.log('Success done! \n');
       cb()
     })
   })
